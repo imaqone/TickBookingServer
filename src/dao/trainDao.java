@@ -5,5 +5,4 @@ public interface trainDao {
     String getArriveCity();
     void getDepartTime();
     void getArriveTime();
-
 }
