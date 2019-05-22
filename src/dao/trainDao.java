@@ -1,8 +1,6 @@
 package dao;
 
+import java.util.ArrayList;
 public interface trainDao {
-    void getDepartCity();
-    String getArriveCity();
-    void getDepartTime();
-    void getArriveTime();
+    ArrayList<Ticket> getTicket(String departCity,String arriveCity,String departDate);
 }

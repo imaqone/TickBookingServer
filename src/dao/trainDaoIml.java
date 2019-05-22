@@ -4,26 +4,40 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+
 import util.*;
 public class trainDaoIml implements trainDao{
     Connection connection=null;
     dbConn dbConn=new dbConn();
     @Override
-    public void getDepartCity(){
-
-    }
-    @Override
-    public String getArriveCity(){
+    public ArrayList<Ticket> getTicket(String departCity,String arriveCity,String departDate){
         ResultSet resultSet=null;
-        String sql="select ArriveCity from student";
+        String sql="SELECT * FROM testconn.student\n" +
+                "where date_format(DepartDate,'%Y%m%d')='"+departDate+"'\n" +
+                "and ArriveCity='"+arriveCity+"'\n" +
+                "and DepartCity='"+departCity+"'";
         PreparedStatement preparedStatement=null;
-        String city=null;
+        ArrayList<Ticket>ticketList=new ArrayList<>();
         try {
             connection=dbConn.getConnection();
             preparedStatement = connection.prepareStatement(sql);
             resultSet=preparedStatement.executeQuery();
             while(resultSet.next()){
-                city=resultSet.getString("ArriveCity");
+                String Arrive=resultSet.getString("ArriveCity");
+                String Depart=resultSet.getString("DepartCity");
+                String Date=resultSet.getString("DepartDate");
+                Ticket ticket=new Ticket(Depart,Arrive,Date);
+//                ticket.setArriveCity(ArriveCity);
+//                ticket.setDepartCity(departCity);
+//                ticket.setDepartDate(date);
+//                ticket.ArriveCity=ArriveCity;
+//                ticket.DepartCity=departCity;
+//                ticket.DepartDate=date;
+                ticketList.add(ticket);
+//                System.out.println(ArriveCity);
+//                System.out.println(departCity);
+//                System.out.println(date);
             }
         }catch (SQLException se){
             se.printStackTrace();
@@ -39,14 +53,6 @@ public class trainDaoIml implements trainDao{
         }catch (Exception e){
             e.printStackTrace();
         }
-        return city;
-    }
-    @Override
-    public void getDepartTime(){
-
-    }
-    @Override
-    public void getArriveTime(){
-
+        return ticketList;
     }
 }
