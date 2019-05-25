@@ -1,14 +1,18 @@
 package dao;
 
 public class Ticket {
-    public Ticket(String DepartCity,String ArriveCity,String DepartDate){
-        this.DepartDate=DepartDate;
-        this.DepartCity=DepartCity;
-        this.ArriveCity=ArriveCity;
+    public Ticket(String DepartStation,String ArriveStation,String DepartTime,String ArriveTime,String TrainNum){
+        this.DepartStation=DepartStation;
+        this.ArriveStation=ArriveStation;
+        this.DepartTime=DepartTime;
+        this.ArriveTime=ArriveTime;
+        this.TrainNum=TrainNum;
     }
-    public String DepartCity;
-    public String ArriveCity;
-    public String DepartDate;
+    public String DepartStation;
+    public String ArriveStation;
+    public String DepartTime;
+    public String ArriveTime;
+    public String TrainNum;
 //
 //    public String getDepartCity() {
 //        return DepartCity;

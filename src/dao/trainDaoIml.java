@@ -13,7 +13,7 @@ public class trainDaoIml implements trainDao{
     @Override
     public ArrayList<Ticket> getTicket(String departCity,String arriveCity,String departDate){
         ResultSet resultSet=null;
-        String sql="SELECT * FROM testconn.student\n" +
+        String sql="SELECT DepartStation,ArriveStation,DepartTime,ArriveTime,TrainNum FROM testconn.student\n" +
                 "where date_format(DepartDate,'%Y%m%d')='"+departDate+"'\n" +
                 "and ArriveCity='"+arriveCity+"'\n" +
                 "and DepartCity='"+departCity+"'";
@@ -24,10 +24,12 @@ public class trainDaoIml implements trainDao{
             preparedStatement = connection.prepareStatement(sql);
             resultSet=preparedStatement.executeQuery();
             while(resultSet.next()){
-                String Arrive=resultSet.getString("ArriveCity");
-                String Depart=resultSet.getString("DepartCity");
-                String Date=resultSet.getString("DepartDate");
-                Ticket ticket=new Ticket(Depart,Arrive,Date);
+                String Arrive=resultSet.getString("ArriveStation");
+                String Depart=resultSet.getString("DepartStation");
+                String ArriveTime=resultSet.getString("ArriveTime");
+                String DepartTime=resultSet.getString("DepartTime");
+                String TrainNum=resultSet.getString("TrainNum");
+                Ticket ticket=new Ticket(Depart,Arrive,DepartTime,ArriveTime,TrainNum);
 //                ticket.setArriveCity(ArriveCity);
 //                ticket.setDepartCity(departCity);
 //                ticket.setDepartDate(date);
