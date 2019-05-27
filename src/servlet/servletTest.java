@@ -57,18 +57,66 @@ public class servletTest extends HttpServlet {
         System.out.println(json.toString());
 //        JsonObj jsonObj = gson.fromJson(json.toString(), JsonObj.class);
 //        System.out.println(jsonObj.city);
-        requestTicket requestTicket=gson.fromJson(json.toString(), requestTicket.class);
-        String departCity=requestTicket.ticket[0];
-        String arriveCity=requestTicket.ticket[1];
-        String date=requestTicket.ticket[2];
-        trainDaoIml t = new trainDaoIml();
-        ArrayList<Ticket> tickets;
-        tickets = t.getTicket(departCity,arriveCity,date);
-        String ResponseData = gson.toJson(tickets);
-        PrintWriter out=response.getWriter();
-        out.write(ResponseData);
-        out.flush();
-        out.close();
+//        requestTicket requestTicket=gson.fromJson(json.toString(), requestTicket.class);
+        request requestM=gson.fromJson(json.toString(),request.class);
+//        System.out.println(requestM.messageType);
+//        System.out.println(requestM.message);
+        if(requestM.messageType.equals("ticket")){
+
+            String departCity=requestM.message[0];
+            String arriveCity=requestM.message[1];
+            String date=requestM.message[2];
+
+            trainDaoIml t = new trainDaoIml();
+            ArrayList<Ticket> tickets;
+            tickets = t.getTicket(departCity,arriveCity,date);
+            String ResponseData = gson.toJson(tickets);
+            PrintWriter out=response.getWriter();
+            out.write(ResponseData);
+            out.flush();
+            out.close();
+        }else if(requestM.messageType.equals("register")){
+            String UserId=requestM.message[0];
+            String Name=requestM.message[1];
+            String Account=requestM.message[2];
+            String Password=requestM.message[3];
+            String Phone=requestM.message[4];
+            String IdCard=requestM.message[5];
+            userMessage um=new userMessage(UserId,Name,Account,Password,Phone,IdCard);
+            userRegisterIml userRegisterIml=new userRegisterIml();
+            userRegisterIml.register(um);
+            PrintWriter out=response.getWriter();
+            out.write("success");
+            out.flush();
+            out.close();
+//            ["3","anqi","123","123","123","123"]
+        }else if(requestM.messageType.equals("login")){
+            String UserName=requestM.message[0];
+            String Password=requestM.message[1];
+            loginDaoIml loginDaoIml=new loginDaoIml();
+            boolean successOrNot=loginDaoIml.login(UserName,Password);
+            String ResponseData;
+            if(successOrNot){
+                ResponseData ="success";
+            }else{
+                ResponseData="fail";
+            }
+            PrintWriter out=response.getWriter();
+            out.write(ResponseData);
+            out.flush();
+            out.close();
+        }
+//        String departCity=requestTicket.ticket[0];
+//        String arriveCity=requestTicket.ticket[1];
+//        String date=requestTicket.ticket[2];
+//        trainDaoIml t = new trainDaoIml();
+//        ArrayList<Ticket> tickets;
+//        tickets = t.getTicket(departCity,arriveCity,date);
+//        String ResponseData = gson.toJson(tickets);
+//        PrintWriter out=response.getWriter();
+//        out.write(ResponseData);
+//        out.flush();
+//        out.close();
     }
 
 //    class JsonObj {
@@ -76,5 +124,9 @@ public class servletTest extends HttpServlet {
 //    }
     class requestTicket{
         public String[]ticket;
+    }
+    class request{
+        public String messageType;
+        public String[]message;
     }
 }
