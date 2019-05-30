@@ -8,8 +8,8 @@ public class dbConn {
         Connection connection=null;
         String driver="com.mysql.jdbc.Driver";
         String url="jdbc:mysql://localhost:3306/testConn";
-        String name="root";
-        String password="mm115599";
+        String name="";                  //username
+        String password="";              //password
         Class.forName(driver);
         connection=DriverManager.getConnection(url,name,password);
         return connection;
